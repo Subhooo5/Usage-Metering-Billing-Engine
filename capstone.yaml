@@ -1,0 +1,28 @@
+name: flyrank-capstone-metering-billing
+run: docker compose up --build -d
+seed: docker compose exec api npm run seed
+test: npm test
+base_url: http://localhost:3000
+auth:
+  header: x-api-key
+  demo_keys:
+    - demo-key-alpha
+    - demo-key-beta
+endpoints:
+  - method: GET
+    path: /health
+  - method: POST
+    path: /generate
+    headers:
+      x-api-key: demo-key-alpha
+      Idempotency-Key: probe-key
+  - method: GET
+    path: /usage
+    headers:
+      x-api-key: demo-key-alpha
+  - method: POST
+    path: /billing/checkout
+    headers:
+      x-api-key: demo-key-alpha
+  - method: POST
+    path: /webhooks/stripe
