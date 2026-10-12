@@ -1,0 +1,44 @@
+name: metering
+
+services:
+  api:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    environment:
+      DATABASE_URL: postgres://postgres:dev@db:5432/metering
+      PORT: 3000
+    depends_on:
+      db:
+        condition: service_healthy
+    develop:
+      watch:
+        - action: rebuild
+          path: ./server.js
+        - action: rebuild
+          path: ./src
+        - action: rebuild
+          path: ./migrations
+        - action: rebuild
+          path: ./package.json
+
+  db:
+    image: postgres:16
+    container_name: metering-db
+    environment:
+      POSTGRES_PASSWORD: dev
+      POSTGRES_DB: metering
+    ports:
+      - "5433:5432"
+    volumes:
+      - metering-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d metering"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+volumes:
+  metering-data:

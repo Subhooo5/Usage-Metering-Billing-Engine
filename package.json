@@ -1,0 +1,31 @@
+{
+  "name": "metering-billing-engine",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node server.js",
+    "migrate": "node src/db/migrate.js",
+    "seed": "node src/scripts/seed.js",
+    "test": "node src/db/migrate.js && node --test test/pricing.test.js test/quota.test.js test/api.test.js test/webhook.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Subhooo5/Usage-Metering-Billing-Engine.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/Subhooo5/Usage-Metering-Billing-Engine/issues"
+  },
+  "homepage": "https://github.com/Subhooo5/Usage-Metering-Billing-Engine#readme",
+  "dependencies": {
+    "dotenv": "^18.0.7",
+    "express": "^5.3.0",
+    "pg": "^8.23.1",
+    "stripe": "^23.0.0",
+    "zod": "^4.6.6"
+  }
+}
